@@ -14,7 +14,7 @@ namespace SortAlgorithms
     public class InsertionSortTests
     {
         [Test]
-        public void InsertionSortOnEmptyArray()
+        public void SortEmptyArray()
         {
             var unsorted = new int[0];
             var sorted = new int[0];
@@ -23,7 +23,7 @@ namespace SortAlgorithms
         }
 
         [Test]
-        public void InsertionSortOnUnsortedArrays()
+        public void SortArrayOfInts()
         {
             var unsorted = new[] {5, 2, 3, -1, 8};
             var sorted = new[] {-1, 2, 3, 5, 8};
@@ -54,7 +54,7 @@ namespace SortAlgorithms
         }
 
         [Test]
-        public void InsertionSortOnEmptyList()
+        public void SortEmptyList()
         {
             var unsorted = new int[0];
             var sorted = new int[0];
@@ -63,7 +63,7 @@ namespace SortAlgorithms
         }
 
         [Test]
-        public void InsertionSortOnUnsortedInts()
+        public void SortListOfInts()
         {
             var unsorted = new[] { 5, 2, 3, -1, 8 };
             var sorted = new[] { -1, 2, 3, 5, 8 };
