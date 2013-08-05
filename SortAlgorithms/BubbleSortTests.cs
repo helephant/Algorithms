@@ -3,6 +3,10 @@ using NUnit.Framework;
 
 namespace SortAlgorithms
 {
+    /// <summary>
+    /// Very naive and simple o(n^2) sort algoritm.
+    /// Not much difference between average case and worst case.
+    /// </summary>
     [TestFixture]
     public class BubbleSortTests
     {
