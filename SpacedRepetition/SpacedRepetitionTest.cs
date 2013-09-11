@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace SpacedRepetitionAlgorithm
@@ -14,14 +10,11 @@ namespace SpacedRepetitionAlgorithm
         [Test]
         public void WhenCardIsCorrectSpacingIncreases()
         {
-            var session = new SpacedRepetitionSession();
             var now = DateTime.Now;
-            session.Add(new Fact("neko", "cat", now.AddHours(-1), now));
+            var fact = new Fact("neko", "cat", now, now);
+            fact.GiveAnswer(Answer.Correct);
 
-            var fact = session.Next();
-            fact.Answer(Answer.Correct);
-
-            Assert.That(fact.NextReview, Is.EqualTo(now.AddHours(2)));
+            Assert.That(fact.NextReview, Is.EqualTo(now.AddHours(1)));
         }
     }
 
@@ -48,27 +41,52 @@ namespace SpacedRepetitionAlgorithm
 
     public class Fact
     {
-        public Fact(string expression, string meaning, DateTime lastReview, DateTime nextReview)
+        private ReviewTime _reviewTime;
+
+        public Fact(string expression, string meaning, DateTime lastReview, DateTime nextReview) :
+            this(expression, meaning, new ReviewTime(nextReview, lastReview))
         {
+        }
+
+        internal Fact(string expression, string meaning, ReviewTime reviewTime)
+        {
+            _reviewTime = reviewTime;
             Expression = expression;
             Meaning = meaning;
-            LastReview = lastReview;
-            NextReview = nextReview;
+            _reviewTime = reviewTime;
         }
 
         public void GiveAnswer(Answer answer)
         {
             if (answer == Answer.Correct)
             {
-                NextReview = DateTime.Now.Add(LastReview - DateTime.Now);
-                LastReview = DateTime.Now;
+//                NextReview = DateTime.Now.Add(DateTime.Now - LastReview);
+//                LastReview = DateTime.Now;
+                _reviewTime = _reviewTime.CalculateNextReview();
             }
         }
 
         public string Expression { get; private set; }
         public string Meaning { get; private set; }
 
-        public DateTime NextReview { get; private set; }
+        public DateTime NextReview { get { return _reviewTime.NextReview; } }
+        public DateTime LastReview { get { return _reviewTime.LastReview; } }
+    }
+
+    internal class ReviewTime
+    {
         public DateTime LastReview { get; private set; }
+        public DateTime NextReview { get; private set; }
+
+        internal ReviewTime(DateTime lastReview, DateTime nextReview)
+        {
+            LastReview = lastReview;
+            NextReview = nextReview;
+        }
+
+        public ReviewTime CalculateNextReview()
+        {
+            return null;
+        }
     }
 }
